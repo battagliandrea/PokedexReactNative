@@ -1,7 +1,8 @@
 import Immutable from 'seamless-immutable';
+import Pokemon from '../models/pokemon';
 
 export type PokemonReducerState = {
-  +pokemonItems: Array<PlayersScreenItem>,
+  +pokemonItems: Array<Pokemon>,
 };
 
 const initialState: PokemonReducerState = Immutable({

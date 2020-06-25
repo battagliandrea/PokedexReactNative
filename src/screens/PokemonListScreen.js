@@ -1,34 +1,44 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {connect} from 'react-redux';
+import React, {useCallback, useEffect} from 'react';
+import {View, StyleSheet} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import PokemonItem from '../components/PokemonItem';
 
-class PokemonsListScreen extends React.Component {
-  render() {
-    return (
-      <View style={style.container}>
-        <FlatList
-          horizontal={false}
-          showsVerticalScrollIndicator={false}
-          data={this.props.pokemons}
-          keyExtractor={(item) => item.name}
-          renderItem={({item}) => {
-            return (
-              <TouchableOpacity>
-                <PokemonItem pokemon={item} />
-              </TouchableOpacity>
-            );
-          }}
-        />
-      </View>
-    );
-  }
+const PokemonsListScreen = () => {
+  const dispatch = useDispatch();
+  const pokemons = useSelector((state) => {
+    return state.pokemonReducer.pokemonItems;
+  });
 
-  componentDidMount() {
-    this.props.reduxGetPokemon();
-  }
-}
+  const callPokemon = useCallback(() => dispatch({type: 'GET_POKEMONS'}), [
+    dispatch,
+  ]);
+
+  useEffect(() => {
+    const getPokemon = () => callPokemon();
+
+    getPokemon();
+  }, [callPokemon]);
+
+  return (
+    <View style={style.container}>
+      <FlatList
+        horizontal={false}
+        showsVerticalScrollIndicator={false}
+        data={pokemons}
+        keyExtractor={(item) => item.name}
+        numColumns={2}
+        renderItem={({item}) => {
+          return (
+            <TouchableOpacity>
+              <PokemonItem pokemon={item} />
+            </TouchableOpacity>
+          );
+        }}
+      />
+    </View>
+  );
+};
 
 const style = StyleSheet.create({
   container: {
@@ -36,20 +46,5 @@ const style = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  return {
-    pokemons: state.pokemonReducer.pokemonItems,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    reduxGetPokemon: () =>
-      dispatch({
-        type: 'GET_POKEMONS',
-      }),
-  };
-};
-
 // Exports
-export default connect(mapStateToProps, mapDispatchToProps)(PokemonsListScreen);
+export default PokemonsListScreen;
