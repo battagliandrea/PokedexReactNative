@@ -6,14 +6,31 @@ export type PokemonReducerState = {
 };
 
 const initialState: PokemonReducerState = Immutable({
-  pokemonItems: [],
+  isLoading: false,
+  pokemons: []
 });
 
 const pokemonReducer = (state = initialState, action): PokemonReducerState => {
   switch (action.type) {
-    case 'GET_POKEMONS_ASYNC': {
+    case 'GET_POKEMONS': {
       return {
-        pokemonItems: action.value,
+        ...state,
+        isLoading: true
+      };
+    }
+    case 'GET_POKEMONS_SUCCESS': {
+      return {
+        ...state,
+        isLoading: false,
+        pokemons: action.value
+      };
+    }
+    case 'GET_POKEMONS_ERROR': {
+      return {
+        ...state,
+        isLoading: false,
+        pokemons: [],
+        offset: 0
       };
     }
     default: {

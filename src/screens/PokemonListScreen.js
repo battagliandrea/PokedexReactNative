@@ -1,27 +1,29 @@
-import React, {useCallback, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {View, StyleSheet, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import PokemonItem from '../components/PokemonItem';
 
 const PokemonsListScreen = () => {
-  const dispatch = useDispatch();
-  const pokemons = useSelector((state) => {
-    return state.pokemonReducer.pokemonItems;
-  });
 
-  const callPokemon = useCallback(() => dispatch({type: 'GET_POKEMONS'}), [
-    dispatch,
-  ]);
+  // You can use these instead of
+  // mapStateToProps and mapDispatchToProps
+  const dispatch = useDispatch();
+  const pokemons = useSelector((state) => state.pokemonReducer.pokemons);
+
+  const [offset, setOffset] = useState(0);
+ 
+  const loadPokemon = useCallback(() => {
+    dispatch({type: 'GET_POKEMONS', payload: { offset: offset} })
+  }, [offset]);
 
   useEffect(() => {
-    const getPokemon = () => callPokemon();
-
-    getPokemon();
-  }, [callPokemon]);
+    loadPokemon()
+  }, [offset]);
 
   return (
     <View style={style.container}>
+      <Text>{offset}</Text>
       <FlatList
         horizontal={false}
         showsVerticalScrollIndicator={false}
@@ -34,6 +36,10 @@ const PokemonsListScreen = () => {
               <PokemonItem pokemon={item} />
             </TouchableOpacity>
           );
+        }}
+        onEndReachedTrheshold={0.5}
+        onEndReached={() => {
+          setOffset(pokemons.length);
         }}
       />
     </View>

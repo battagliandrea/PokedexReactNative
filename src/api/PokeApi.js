@@ -1,5 +1,5 @@
-import { create } from 'apisauce';
+import {create} from 'apisauce';
 
 export default create({
-    baseURL: 'https://pokeapi.co/api/v2'
-})
+  baseURL: 'https://pokeapi.co/api/v2',
+});
