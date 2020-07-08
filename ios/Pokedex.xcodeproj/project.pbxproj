@@ -188,7 +188,6 @@
 			children = (
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		C5BED0164F9A655A971A7847 /* Pods */ = {
@@ -203,7 +202,6 @@
 				B9CCFCA1AB078418127B9134 /* Pods-Pokedex-tvOSTests.debug.xcconfig */,
 				0FE8FCF2DAC6D557D2472917 /* Pods-Pokedex-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
