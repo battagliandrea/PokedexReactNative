@@ -78,7 +78,8 @@ target 'Pokedex' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'react-native-config', :path => '../node_modules/react-native-config'
 
   target 'PokedexTests' do
     inherit! :complete

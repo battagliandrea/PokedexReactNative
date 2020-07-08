@@ -2,18 +2,20 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import {createStackNavigator} from 'react-navigation-stack';
-import {store} from './src/store/Store';
-import PokemonsListScreen from './src/screens/PokemonListScreen';
+import {store} from './src/Store/Store';
+import PokemonsListScreen from './src/Screens/PokemonListScreen';
+import MainScreen from './src/Screens/MainScreen/index';
 import {createAppContainer} from 'react-navigation';
 
 const navigator = createStackNavigator(
   {
+    Main: MainScreen,
     Pokemons: PokemonsListScreen,
   },
   {
-    initialRouteName: 'Pokemons',
+    initialRouteName: 'Main',
     defaultNavigationOptions: {
-      title: 'Pokedex',
+      title: 'Pokemons',
     },
   },
 );

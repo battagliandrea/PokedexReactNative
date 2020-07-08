@@ -1,25 +1,26 @@
+// @flow
+
 import React, {useCallback, useEffect, useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
-import PokemonItem from '../components/PokemonItem';
+// import PokemonItem from '..r/Components/PokemonItem';
 
 const PokemonsListScreen = () => {
-
   // You can use these instead of
   // mapStateToProps and mapDispatchToProps
   const dispatch = useDispatch();
   const pokemons = useSelector((state) => state.pokemonReducer.pokemons);
 
   const [offset, setOffset] = useState(0);
- 
+
   const loadPokemon = useCallback(() => {
-    dispatch({type: 'GET_POKEMONS', payload: { offset: offset} })
-  }, [offset]);
+    dispatch({type: 'FETCH_POKEMONS_REQUEST', payload: {offset: offset}});
+  }, [dispatch, offset]);
 
   useEffect(() => {
-    loadPokemon()
-  }, [offset]);
+    loadPokemon();
+  }, [loadPokemon, offset]);
 
   return (
     <View style={style.container}>
@@ -33,7 +34,7 @@ const PokemonsListScreen = () => {
         renderItem={({item}) => {
           return (
             <TouchableOpacity>
-              <PokemonItem pokemon={item} />
+              {/* <PokemonItem pokemon={item} /> */}
             </TouchableOpacity>
           );
         }}
@@ -52,5 +53,4 @@ const style = StyleSheet.create({
   },
 });
 
-// Exports
 export default PokemonsListScreen;

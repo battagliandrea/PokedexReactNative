@@ -1,36 +1,49 @@
+// @flow
+
 import Immutable from 'seamless-immutable';
-import Pokemon from '../models/pokemon';
+import {type Pokemon} from '../Types/Pokemon';
+import {type ActionSaga} from '../ActionsReducersType';
+import {
+  FETCH_POKEMONS_REQUEST,
+  FETCH_POKEMONS_SUCCESS,
+  FETCH_POKEMONS_FAILURE,
+} from '../ActionsReducersType/ReducerActionsType';
 
 export type PokemonReducerState = {
-  +pokemonItems: Array<Pokemon>,
+  +isLoading?: boolean,
+  +pokemons: Array<Pokemon>,
 };
 
 const initialState: PokemonReducerState = Immutable({
   isLoading: false,
-  pokemons: []
+  pokemons: [],
 });
 
-const pokemonReducer = (state = initialState, action): PokemonReducerState => {
+const pokemonReducer = (
+  state: PokemonReducerState = initialState,
+  action: ActionSaga,
+): PokemonReducerState => {
   switch (action.type) {
-    case 'GET_POKEMONS': {
+    case FETCH_POKEMONS_REQUEST: {
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     }
-    case 'GET_POKEMONS_SUCCESS': {
+    case FETCH_POKEMONS_SUCCESS: {
+      const data = Immutable(state.pokemons).concat(action.payload.pokemons);
+
       return {
         ...state,
         isLoading: false,
-        pokemons: action.value
+        pokemons: data,
       };
     }
-    case 'GET_POKEMONS_ERROR': {
+    case FETCH_POKEMONS_FAILURE: {
       return {
         ...state,
         isLoading: false,
         pokemons: [],
-        offset: 0
       };
     }
     default: {
@@ -39,5 +52,4 @@ const pokemonReducer = (state = initialState, action): PokemonReducerState => {
   }
 };
 
-// Exports
 export default pokemonReducer;
